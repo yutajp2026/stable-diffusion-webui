@@ -1,4 +1,5 @@
 setuptools==69.5.1  # temp fix for compatibility with some old packages
+taming-transformers @ git+https://github.com/CompVis/taming-transformers.git@24268930bf1dce879235a7fddd0b2355b84d7ea6
 GitPython==3.1.32
 Pillow==9.5.0
 accelerate==0.21.0

@@ -4,13 +4,44 @@ import os
 import sys
 import threading
 import enum
+import types
 
 import torch
 import re
 import safetensors.torch
 from omegaconf import OmegaConf, ListConfig
 from urllib import request
-import ldm.modules.midas as midas
+
+try:
+    import ldm.modules.midas as midas
+except ModuleNotFoundError:
+    ldm_pkg = types.ModuleType('ldm')
+    ldm_pkg.__path__ = []
+    sys.modules.setdefault('ldm', ldm_pkg)
+
+    ldm_modules_pkg = types.ModuleType('ldm.modules')
+    ldm_modules_pkg.__path__ = []
+    sys.modules.setdefault('ldm.modules', ldm_modules_pkg)
+
+    midas = types.ModuleType('ldm.modules.midas')
+    midas.__path__ = []
+    sys.modules['ldm.modules.midas'] = midas
+
+    midas_api = types.ModuleType('ldm.modules.midas.api')
+    midas_api.ISL_PATHS = {
+        'dpt_large': 'dpt_large-midas-2f21e586.pt',
+        'dpt_hybrid': 'dpt_hybrid-midas-501f0c75.pt',
+        'midas_v21': 'midas_v21-f6b98070.pt',
+        'midas_v21_small': 'midas_v21_small-70d6b9c8.pt',
+    }
+
+    def load_model(model_type):
+        return None
+
+    midas_api.load_model = load_model
+    midas_api.load_model_inner = load_model
+    midas.api = midas_api
+    sys.modules['ldm.modules.midas.api'] = midas_api
 
 from modules import paths, shared, modelloader, devices, script_callbacks, sd_vae, sd_disable_initialization, errors, hashes, sd_models_config, sd_unet, sd_models_xl, cache, extra_networks, processing, lowvram, sd_hijack, patches
 from modules.timer import Timer

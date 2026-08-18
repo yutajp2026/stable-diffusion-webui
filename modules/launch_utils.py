@@ -21,7 +21,37 @@ args, _ = cmd_args.parser.parse_known_args()
 logging_config.setup_logging(args.loglevel)
 
 python = sys.executable
-git = os.environ.get('GIT', "git")
+
+def find_git_executable():
+    git_env = os.environ.get('GIT')
+    if git_env:
+        return git_env
+
+    git_path = shutil.which('git')
+    if git_path:
+        return git_path
+
+    for candidate in (
+        r'C:\Program Files\Git\cmd\git.exe',
+        r'C:\Program Files\Git\bin\git.exe',
+        r'C:\Program Files (x86)\Git\cmd\git.exe',
+    ):
+        if os.path.exists(candidate):
+            return candidate
+
+    return 'git'
+
+
+git = find_git_executable()
+os.environ['GIT'] = git
+
+if os.path.dirname(git):
+    git_dir = os.path.dirname(git)
+    path = os.environ.get('PATH', '')
+    path_entries = path.split(os.pathsep) if path else []
+    if git_dir not in path_entries:
+        os.environ['PATH'] = git_dir + os.pathsep + path
+
 index_url = os.environ.get('INDEX_URL', "")
 dir_repos = "repositories"
 
@@ -90,10 +120,18 @@ def run(command, desc=None, errdesc=None, custom_env=None, live: bool = default_
     if desc is not None:
         print(desc)
 
+    env = os.environ.copy() if custom_env is None else custom_env.copy()
+    git_dir = os.path.dirname(find_git_executable())
+    if git_dir and os.path.isdir(git_dir):
+        path = env.get('PATH', '')
+        path_entries = path.split(os.pathsep) if path else []
+        if git_dir not in path_entries:
+            env['PATH'] = git_dir + os.pathsep + path
+
     run_kwargs = {
         "args": command,
         "shell": True,
-        "env": os.environ if custom_env is None else custom_env,
+        "env": env,
         "encoding": 'utf8',
         "errors": 'ignore',
     }
@@ -132,6 +170,10 @@ def is_installed(package):
     return dist is not None
 
 
+def is_taming_installed():
+    return is_installed("taming") or is_installed("taming-transformers")
+
+
 def repo_dir(name):
     return os.path.join(script_path, dir_repos, name)
 
@@ -142,6 +184,16 @@ def run_pip(command, desc=None, live=default_command_live):
 
     index_url_line = f' --index-url {index_url}' if index_url != '' else ''
     return run(f'"{python}" -m pip {command} --prefer-binary{index_url_line}', desc=f"Installing {desc}", errdesc=f"Couldn't install {desc}", live=live)
+
+
+def ensure_build_dependencies():
+    try:
+        import pkg_resources
+    except ModuleNotFoundError:
+        run_pip("install setuptools==69.5.1", "setuptools")
+
+    if not is_installed("wheel"):
+        run_pip("install wheel", "wheel")
 
 
 def check_run_python(code: str) -> bool:
@@ -346,13 +398,13 @@ def prepare_environment():
     openclip_package = os.environ.get('OPENCLIP_PACKAGE', "https://github.com/mlfoundations/open_clip/archive/bb6e834e9c70d9c27d0dc3ecedeebeaeb1ffad6b.zip")
 
     assets_repo = os.environ.get('ASSETS_REPO', "https://github.com/AUTOMATIC1111/stable-diffusion-webui-assets.git")
-    stable_diffusion_repo = os.environ.get('STABLE_DIFFUSION_REPO', "https://github.com/Stability-AI/stablediffusion.git")
+    stable_diffusion_repo = os.environ.get('STABLE_DIFFUSION_REPO', "https://github.com/CompVis/stable-diffusion.git")
     stable_diffusion_xl_repo = os.environ.get('STABLE_DIFFUSION_XL_REPO', "https://github.com/Stability-AI/generative-models.git")
     k_diffusion_repo = os.environ.get('K_DIFFUSION_REPO', 'https://github.com/crowsonkb/k-diffusion.git')
     blip_repo = os.environ.get('BLIP_REPO', 'https://github.com/salesforce/BLIP.git')
 
     assets_commit_hash = os.environ.get('ASSETS_COMMIT_HASH', "6f7db241d2f8ba7457bac5ca9753331f0c266917")
-    stable_diffusion_commit_hash = os.environ.get('STABLE_DIFFUSION_COMMIT_HASH', "cf1d67a6fd5ea1aa600c4df58e5b47da45f6bdbf")
+    stable_diffusion_commit_hash = os.environ.get('STABLE_DIFFUSION_COMMIT_HASH', "21f890f9da3cfbeaba8e2ac3c425ee9e998d5229")
     stable_diffusion_xl_commit_hash = os.environ.get('STABLE_DIFFUSION_XL_COMMIT_HASH', "45c443b316737a4ab6e40413d7794a7f5657c19f")
     k_diffusion_commit_hash = os.environ.get('K_DIFFUSION_COMMIT_HASH', "ab527a9a6d347f364e3d185ba6d714e22d80cb3c")
     blip_commit_hash = os.environ.get('BLIP_COMMIT_HASH', "48211a1594f1321b00f14c9f7a5b4813144b2fb9")
@@ -390,13 +442,19 @@ def prepare_environment():
         )
     startup_timer.record("torch GPU test")
 
+    ensure_build_dependencies()
+
     if not is_installed("clip"):
-        run_pip(f"install {clip_package}", "clip")
+        run_pip(f"install --no-build-isolation {clip_package}", "clip")
         startup_timer.record("install clip")
 
     if not is_installed("open_clip"):
-        run_pip(f"install {openclip_package}", "open_clip")
+        run_pip(f"install --no-build-isolation {openclip_package}", "open_clip")
         startup_timer.record("install open_clip")
+
+    if not is_taming_installed():
+        run_pip("install git+https://github.com/CompVis/taming-transformers.git@24268930bf1dce879235a7fddd0b2355b84d7ea6", "taming-transformers")
+        startup_timer.record("install taming-transformers")
 
     if (not is_installed("xformers") or args.reinstall_xformers) and args.xformers:
         run_pip(f"install -U -I --no-deps {xformers_package}", "xformers")

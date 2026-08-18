@@ -1,12 +1,56 @@
 import os
 import sys
+import types
+import importlib.util
 from modules.paths_internal import models_path, script_path, data_path, extensions_dir, extensions_builtin_dir, cwd  # noqa: F401
 
 import modules.safe  # noqa: F401
 
 
+def ensure_taming_stub():
+    """Provide a minimal taming namespace for legacy SD imports when the optional package is absent."""
+    if 'taming' in sys.modules:
+        return
+
+    taming = types.ModuleType('taming')
+    taming.__path__ = []
+    sys.modules['taming'] = taming
+
+    modules_pkg = types.ModuleType('taming.modules')
+    modules_pkg.__path__ = []
+    sys.modules['taming.modules'] = modules_pkg
+
+    losses_pkg = types.ModuleType('taming.modules.losses')
+    losses_pkg.__path__ = []
+    sys.modules['taming.modules.losses'] = losses_pkg
+
+    vqvae_pkg = types.ModuleType('taming.modules.vqvae')
+    vqvae_pkg.__path__ = []
+    sys.modules['taming.modules.vqvae'] = vqvae_pkg
+
+    vendored_quantize = os.path.join(script_path, 'extensions-builtin/LDSR/vqvae_quantize.py')
+    if os.path.exists(vendored_quantize):
+        spec = importlib.util.spec_from_file_location('taming.modules.vqvae.quantize', vendored_quantize)
+        quantize_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(quantize_mod)
+        sys.modules['taming.modules.vqvae.quantize'] = quantize_mod
+    else:
+        quantize_mod = types.ModuleType('taming.modules.vqvae.quantize')
+        quantize_mod.__all__ = []
+        sys.modules['taming.modules.vqvae.quantize'] = quantize_mod
+
+    lpips = types.ModuleType('taming.modules.losses.lpips')
+    lpips.LPIPS = None
+    sys.modules['taming.modules.losses.lpips'] = lpips
+
+    vqvae_pkg.quantize = sys.modules['taming.modules.vqvae.quantize']
+    vqvae_pkg.VectorQuantizer2 = getattr(sys.modules['taming.modules.vqvae.quantize'], 'VectorQuantizer2', None)
+
+
 def mute_sdxl_imports():
     """create fake modules that SDXL wants to import but doesn't actually use for our purposes"""
+
+    ensure_taming_stub()
 
     class Dummy:
         pass
