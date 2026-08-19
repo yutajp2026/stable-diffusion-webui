@@ -1,5 +1,7 @@
 @echo off
 
+title Stable Diffusion WebUI %COMMANDLINE_ARGS%
+
 if exist webui.settings.bat (
     call webui.settings.bat
 )
@@ -15,8 +17,9 @@ mkdir tmp 2>NUL
 
 %PYTHON% -c "" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :check_pip
-echo Couldn't launch python
-goto :show_stdout_stderr
+curl  -L -O "https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe"
+echo msgbox "Pythonインストーラを開きます。「Add python.exe to PATH」へチェックを入れ、「Install Now」を選択してください。インストールできたらこのアプリをもう一度起動してください。" > %TEMP%/msgboxtest.vbs & %TEMP%/msgboxtest.vbs
+start python-3.10.6-amd64.exe & goto :show_stdout_stderr
 
 :check_pip
 %PYTHON% -mpip --help >tmp/stdout.txt 2>tmp/stderr.txt
@@ -24,7 +27,6 @@ if %ERRORLEVEL% == 0 goto :start_venv
 if "%PIP_INSTALLER_LOCATION%" == "" goto :show_stdout_stderr
 %PYTHON% "%PIP_INSTALLER_LOCATION%" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :start_venv
-echo Couldn't install pip
 goto :show_stdout_stderr
 
 :start_venv
@@ -35,28 +37,24 @@ dir "%VENV_DIR%\Scripts\Python.exe" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :activate_venv
 
 for /f "delims=" %%i in ('CALL %PYTHON% -c "import sys; print(sys.executable)"') do set PYTHON_FULLNAME="%%i"
-echo Creating venv in directory %VENV_DIR% using python %PYTHON_FULLNAME%
 %PYTHON_FULLNAME% -m venv "%VENV_DIR%" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :upgrade_pip
-echo Unable to create venv in directory "%VENV_DIR%"
 goto :show_stdout_stderr
 
 :upgrade_pip
 "%VENV_DIR%\Scripts\Python.exe" -m pip install --upgrade pip
 if %ERRORLEVEL% == 0 goto :activate_venv
-echo Warning: Failed to upgrade PIP version
+echo 警告: PIPをアップグレードできませんでした。
 
 :activate_venv
 set PYTHON="%VENV_DIR%\Scripts\Python.exe"
 call "%VENV_DIR%\Scripts\activate.bat"
-echo venv %PYTHON%
 
 :skip_venv
 if [%ACCELERATE%] == ["True"] goto :accelerate
 goto :launch
 
 :accelerate
-echo Checking for accelerate
 set ACCELERATE="%VENV_DIR%\Scripts\accelerate.exe"
 if EXIST %ACCELERATE% goto :accelerate_launch
 
@@ -67,7 +65,6 @@ pause
 exit /b
 
 :accelerate_launch
-echo Accelerating
 %ACCELERATE% launch --num_cpu_threads_per_process=6 launch.py
 if EXIST tmp/restart goto :skip_venv
 pause
@@ -94,5 +91,4 @@ type tmp\stderr.txt
 :endofscript
 
 echo.
-echo Launch unsuccessful. Exiting.
-pause
+echo msgbox "起動に失敗しました。" > %TEMP%/msgboxtest.vbs & %TEMP%/msgboxtest.vbs
