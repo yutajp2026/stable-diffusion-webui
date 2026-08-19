@@ -76,19 +76,19 @@ def check_python_version():
         import modules.errors
 
         modules.errors.print_error_explanation(f"""
-INCOMPATIBLE PYTHON VERSION
+互換性のないPYTHONバージョン
 
-This program is tested with 3.10.6 Python, but you have {major}.{minor}.{micro}.
-If you encounter an error with "RuntimeError: Couldn't install torch." message,
-or any other error regarding unsuccessful package (library) installation,
-please downgrade (or upgrade) to the latest version of 3.10 Python
-and delete current Python and "venv" folder in WebUI's directory.
+このプログラムは3.10.6 Pythonでテストされていますが、あなたの場合は{major}.{minor}.{micro}.
+「RuntimeError: torchのインストールに失敗しました」というエラーが出た場合、
+またはパッケージ(ライブラリ)インストールに失敗したその他のエラー、
+3.10 Pythonの最新バージョンにダウングレード(またはアップグレード)してください
+WebUIのディレクトリにある現在のPythonと「venv」フォルダを削除してください。
 
-You can download 3.10 Python from here: https://www.python.org/downloads/release/python-3106/
+3.10 Pythonはこちらからダウンロードできます:https://www.python.org/downloads/release/python-3106/
 
-{"Alternatively, use a binary release of WebUI: https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases/tag/v1.0.0-pre" if is_windows else ""}
+{"または、WebUI: https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases/tag/v1.0.0-pre のバイナリリリースを使用してください。"if is_windows else ""} 
 
-Use --skip-python-version-check to suppress this warning.
+この警告を抑制するには --skip-python-version-check を使ってください。
 """)
 
 
@@ -183,7 +183,7 @@ def run_pip(command, desc=None, live=default_command_live):
         return
 
     index_url_line = f' --index-url {index_url}' if index_url != '' else ''
-    return run(f'"{python}" -m pip {command} --prefer-binary{index_url_line}', desc=f"Installing {desc}", errdesc=f"Couldn't install {desc}", live=live)
+    return run(f'"{python}" -m pip {command} --prefer-binary{index_url_line}', desc=f"{desc}をインストール中", errdesc=f"{desc}のインストールに失敗しました", live=live)
 
 
 def ensure_build_dependencies():
@@ -202,8 +202,8 @@ def check_run_python(code: str) -> bool:
 
 
 def git_fix_workspace(dir, name):
-    run(f'"{git}" -C "{dir}" fetch --refetch --no-auto-gc', f"Fetching all contents for {name}", f"Couldn't fetch {name}", live=True)
-    run(f'"{git}" -C "{dir}" gc --aggressive --prune=now', f"Pruning {name}", f"Couldn't prune {name}", live=True)
+    run(f'"{git}" -C "{dir}" fetch --refetch --no-auto-gc', f"{name}のすべてのコンテンツをフェッチ中", f"{name}をフェッチできませんでした", live=True)
+    run(f'"{git}" -C "{dir}" gc --aggressive --prune=now', f"Pruning {name}", f"{name}をpruneできませんでした", live=True)
     return
 
 
@@ -227,27 +227,27 @@ def git_clone(url, dir, name, commithash=None):
         if commithash is None:
             return
 
-        current_hash = run_git(dir, name, 'rev-parse HEAD', None, f"Couldn't determine {name}'s hash: {commithash}", live=False).strip()
+        current_hash = run_git(dir, name, 'rev-parse HEAD', None, f"{name}のハッシュを決定できませんでした: {commithash}", live=False).strip()
         if current_hash == commithash:
             return
 
-        if run_git(dir, name, 'config --get remote.origin.url', None, f"Couldn't determine {name}'s origin URL", live=False).strip() != url:
-            run_git(dir, name, f'remote set-url origin "{url}"', None, f"Failed to set {name}'s origin URL", live=False)
+        if run_git(dir, name, 'config --get remote.origin.url', None, f"{name}のオリジンURLを決定できませんでした", live=False).strip() != url:
+            run_git(dir, name, f'remote set-url origin "{url}"', None, f"{name}のオリジンURLの設定に失敗しました", live=False)
 
-        run_git(dir, name, 'fetch', f"Fetching updates for {name}...", f"Couldn't fetch {name}", autofix=False)
+        run_git(dir, name, 'fetch', f"{name}のアップデートをフェッチしています...", f"{name}をフェッチできませんでした", autofix=False)
 
-        run_git(dir, name, f'checkout {commithash}', f"Checking out commit for {name} with hash: {commithash}...", f"Couldn't checkout commit {commithash} for {name}", live=True)
+        run_git(dir, name, f'checkout {commithash}', f"{name}のコミット{commithash}のチェックアウト中...", f"{name}のコミット{commithash}のチェックアウトに失敗しました", live=True)
 
         return
 
     try:
-        run(f'"{git}" clone --config core.filemode=false "{url}" "{dir}"', f"Cloning {name} into {dir}...", f"Couldn't clone {name}", live=True)
+        run(f'"{git}" clone --config core.filemode=false "{url}" "{dir}"', f"{name}を{dir}にクローン中...", f"{name}をクローンできませんでした", live=True)
     except RuntimeError:
         shutil.rmtree(dir, ignore_errors=True)
         raise
 
     if commithash is not None:
-        run(f'"{git}" -C "{dir}" checkout {commithash}', None, "Couldn't checkout {name}'s hash: {commithash}")
+        run(f'"{git}" -C "{dir}" checkout {commithash}', None, f"{name}のハッシュ{commithash}のチェックアウトに失敗しました")
 
 
 def git_pull_recursive(dir):
@@ -255,9 +255,9 @@ def git_pull_recursive(dir):
         if os.path.exists(os.path.join(subdir, '.git')):
             try:
                 output = subprocess.check_output([git, '-C', subdir, 'pull', '--autostash'])
-                print(f"Pulled changes for repository in '{subdir}':\n{output.decode('utf-8').strip()}\n")
+                print(f"リポジトリの変更を'{subdir}'に取りました:\n{output.decode('utf-8').strip()}\n")
             except subprocess.CalledProcessError as e:
-                print(f"Couldn't perform 'git pull' on repository in '{subdir}':\n{e.output.decode('utf-8').strip()}\n")
+                print(f"リポジトリの`{subdir}`で`git pull`ができませんでした:\n{e.output.decode('utf-8').strip()}\n")
 
 
 def version_check(commit):
@@ -265,16 +265,16 @@ def version_check(commit):
         import requests
         commits = requests.get('https://api.github.com/repos/AUTOMATIC1111/stable-diffusion-webui/branches/master').json()
         if commit != "<none>" and commits['commit']['sha'] != commit:
-            print("--------------------------------------------------------")
-            print("| You are not up to date with the most recent release. |")
-            print("| Consider running `git pull` to update.               |")
-            print("--------------------------------------------------------")
+            print("-----------------------------------------------------------------")
+            print("|最新のリリースに更新していません。                                |")
+            print("|アップデートのために`git pull`を実行することを検討してみてください。|")
+            print("-----------------------------------------------------------------")
         elif commits['commit']['sha'] == commit:
-            print("You are up to date with the most recent release.")
+            print("最新のリリースで最新情報を得ています。")
         else:
-            print("Not a git clone, can't perform version check.")
+            print("gitのクローンではなく、バージョンチェックもできません。")
     except Exception as e:
-        print("version check failed", e)
+        print("バージョンチェック失敗:", e)
 
 
 def run_extension_installer(extension_dir):
@@ -302,7 +302,7 @@ def list_extensions(settings_file):
     except FileNotFoundError:
         pass
     except Exception:
-        errors.report(f'\nCould not load settings\nThe config file "{settings_file}" is likely corrupted\nIt has been moved to the "tmp/config.json"\nReverting config to default\n\n''', exc_info=True)
+        errors.report(f'\n設定を読み込めませんでした\n設定ファイル`{settings_file}`は破損している可能性が高いです\n"tmp/config.json"に移動しました。\n設定をデフォルトに戻しています\n\n''', exc_info=True)
         os.replace(settings_file, os.path.join(script_path, "tmp", "config.json"))
 
     disabled_extensions = set(settings.get('disabled_extensions', []))
@@ -425,20 +425,20 @@ def prepare_environment():
     tag = git_tag()
     startup_timer.record("git version info")
 
-    print(f"Python {sys.version}")
-    print(f"Version: {tag}")
-    print(f"Commit hash: {commit}")
+    print(f"Pythonバージョン: {sys.version}")
+    print(f"バージョン: {tag}")
+    print(f"コミットハッシュ: {commit}")
 
     if args.reinstall_torch or not is_installed("torch") or not is_installed("torchvision"):
-        run(f'"{python}" -m {torch_command}', "Installing torch and torchvision", "Couldn't install torch", live=True)
+        run(f'"{python}" -m {torch_command}', "torchとtorchvisionをインストール中", "torchのインストールに失敗しました", live=True)
         startup_timer.record("install torch")
 
     if args.use_ipex:
         args.skip_torch_cuda_test = True
     if not args.skip_torch_cuda_test and not check_run_python("import torch; assert torch.cuda.is_available()"):
         raise RuntimeError(
-            'Torch is not able to use GPU; '
-            'add --skip-torch-cuda-test to COMMANDLINE_ARGS variable to disable this check'
+            'TorchがGPUを使用できません; '
+            'このチェックを無効にするには、COMMANDLINE_ARGS変数に--skip-torch-cuda-testを追加してください。'
         )
     startup_timer.record("torch GPU test")
 

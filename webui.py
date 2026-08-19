@@ -37,7 +37,7 @@ def api_only():
     script_callbacks.before_ui_callback()
     script_callbacks.app_started_callback(None, app)
 
-    print(f"Startup time: {startup_timer.summary()}.")
+    print(f"起動時間: {startup_timer.summary()}.")
     api.launch(
         server_name=initialize_util.gradio_server_name(),
         port=cmd_opts.port if cmd_opts.port else 7861,
@@ -128,13 +128,13 @@ def webui():
                     if server_command in ("stop", "restart"):
                         break
                     else:
-                        print(f"Unknown server command: {server_command}")
+                        print(f"不明なサーバーコマンド: {server_command}")
         except KeyboardInterrupt:
-            print('Caught KeyboardInterrupt, stopping...')
+            print('KeyboardInterruptを検出したので停止します...')
             server_command = "stop"
 
         if server_command == "stop":
-            print("Stopping server...")
+            print("サーバーを停止しています...")
             # If we catch a keyboard interrupt, we want to stop the server and exit.
             shared.demo.close()
             break
