@@ -9,7 +9,7 @@ if %ERRORLEVEL% NEQ 0 (
     set COMMANDLINE_ARGS=--xformers
 )
 
-git config --global --add safe.directory %~dp0
+git config --global --add safe.directory %~dp0\repositories\*
 if %ERRORLEVEL% NEQ 0 (
     winget install --id Git.Git -e --source winget
     echo Gitをインストールしました。もう一度このアプリを起動する必要があるかもしれません。
