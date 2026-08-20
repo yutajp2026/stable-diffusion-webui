@@ -98,13 +98,12 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 ## インストールと実行
 
 ### Windows 10/11 へのインストール
-ℹ️公式ではいろいろなGPU別にインストール方法が載っていますが、一部はリポジトリが存在しない問題(後述)に悩まされるのでここでは記載しません。また、アプリ版ではNvidia GPU搭載かを自動で判断してくれるようにしました。
-
+ℹ️公式ではいろいろなGPU別にインストール方法が載っていますが、リポジトリが存在しない問題(後述)に悩まされるのでここでは記載しません。また、アプリ版ではNvidia GPU搭載かを自動で判断してくれるようにしました。
 **アプリ版(Windows推奨)**:
 
 公開予定
 
-自動インストール(大変です):
+自動インストール(とても大変):
 
 ℹ️webui.batにてPythonは自動でインストールされるようにしました。
 
@@ -161,7 +160,7 @@ Google などの検索エンジンが wiki をクロールできるように、�
 ## クレジット
 借用したコードのライセンスは `Settings -> Licenses` 画面、および `html/licenses.html` ファイルで確認できます。
 
-- Stable Diffusion - ~~https://github.com/Stability-AI/stablediffusion~~ 使えなくなったのでこちらに変更https://github.com/CompVis/stable-diffusion, https://github.com/CompVis/taming-transformers, https://github.com/mcmonkey4eva/sd3-ref
+- Stable Diffusion - ~~https://github.com/Stability-AI/stablediffusion~~ 存在しないのでこちらに変更https://github.com/CompVis/stable-diffusion, https://github.com/CompVis/taming-transformers, https://github.com/mcmonkey4eva/sd3-ref
 - k-diffusion - https://github.com/crowsonkb/k-diffusion.git
 - Spandrel - https://github.com/chaiNNer-org/spandrel による実装
   - GFPGAN - https://github.com/TencentARC/GFPGAN.git
