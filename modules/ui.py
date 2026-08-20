@@ -291,7 +291,7 @@ def create_ui():
                                 height = gr.Slider(minimum=64, maximum=2048, step=8, label="高さ", value=512, elem_id="txt2img_height")
 
                             with gr.Column(elem_id="txt2img_dimensions_row", scale=1, elem_classes="dimensions-tools"):
-                                res_switch_btn = ToolButton(value=switch_values_symbol, elem_id="txt2img_res_switch_btn", tooltip="Switch width/height")
+                                res_switch_btn = ToolButton(value=switch_values_symbol, elem_id="txt2img_res_switch_btn", tooltip="幅と高さを交換する")
 
                             if opts.dimensions_and_batch_together:
                                 with gr.Column(elem_id="txt2img_column_batch"):
@@ -518,7 +518,7 @@ def create_ui():
                     with gr.Row(variant="compact", elem_id=f"img2img_copy_to_{tab_name}"):
                         gr.HTML("画像をコピー: ", elem_id=f"img2img_label_copy_to_{tab_name}")
 
-                        for title, name in zip(['img2img', 'sketch', 'inpaint', 'inpaint sketch'], ['img2img', 'sketch', 'inpaint', 'inpaint_sketch']):
+                        for title, name in zip(['img2img', 'スケッチ', 'インペイント', 'インペイント スケッチ'], ['img2img', 'sketch', 'inpaint', 'inpaint_sketch']):
                             if name == tab_name:
                                 gr.Button(title, interactive=False)
                                 copy_image_destinations[name] = elem
