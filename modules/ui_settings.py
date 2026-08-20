@@ -166,21 +166,21 @@ class UiSettings:
                     current_row.__exit__()
                     current_tab.__exit__()
 
-                with gr.TabItem("Defaults", id="defaults", elem_id="settings_tab_defaults"):
+                with gr.TabItem("デフォルト", id="defaults", elem_id="settings_tab_defaults"):
                     loadsave.create_ui()
 
-                with gr.TabItem("Sysinfo", id="sysinfo", elem_id="settings_tab_sysinfo"):
-                    gr.HTML('<a href="./internal/sysinfo-download" class="sysinfo_big_link" download>Download system info</a><br /><a href="./internal/sysinfo" target="_blank">(or open as text in a new page)</a>', elem_id="sysinfo_download")
+                with gr.TabItem("システム情報", id="sysinfo", elem_id="settings_tab_sysinfo"):
+                    gr.HTML('<a href="./internal/sysinfo-download" class="sysinfo_big_link" download>システム情報をダウンロード</a><br /><a href="./internal/sysinfo" target="_blank">(または新しいページでテキストとして開く)</a>', elem_id="sysinfo_download")
 
                     with gr.Row():
                         with gr.Column(scale=1):
-                            sysinfo_check_file = gr.File(label="Check system info for validity", type='binary')
+                            sysinfo_check_file = gr.File(label="システム情報の有効性を確認", type='binary')
                         with gr.Column(scale=1):
                             sysinfo_check_output = gr.HTML("", elem_id="sysinfo_validity")
                         with gr.Column(scale=100):
                             pass
 
-                with gr.TabItem("Actions", id="actions", elem_id="settings_tab_actions"):
+                with gr.TabItem("アクション", id="actions", elem_id="settings_tab_actions"):
                     request_notifications = gr.Button(value='ブラウザ通知をリクエストする', elem_id="request_notifications")
                     download_localization = gr.Button(value='ローカリゼーションテンプレートをダウンロード', elem_id="download_localization")
                     reload_script_bodies = gr.Button(value='カスタムスクリプトのボディを再読み込み(UI更新なし、再起動なし)', variant='secondary', elem_id="settings_reload_script_bodies")
@@ -191,7 +191,7 @@ class UiSettings:
                         calculate_all_checkpoint_hash = gr.Button(value='すべてのチェックポイントでハッシュを計算', elem_id="calculate_all_checkpoint_hash")
                         calculate_all_checkpoint_hash_threads = gr.Number(value=1, label="並列計算の数", elem_id="calculate_all_checkpoint_hash_threads", precision=0, minimum=1)
 
-                with gr.TabItem("Licenses", id="licenses", elem_id="settings_tab_licenses"):
+                with gr.TabItem("ライセンス", id="licenses", elem_id="settings_tab_licenses"):
                     gr.HTML(shared.html("licenses.html"), elem_id="licenses")
 
                 self.show_all_pages = gr.Button(value="すべてのページを表示", elem_id="settings_show_all_pages")
