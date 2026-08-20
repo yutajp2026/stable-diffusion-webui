@@ -903,11 +903,11 @@ def create_ui():
         with ResizeHandleRow(variant="compact", equal_height=False):
             with gr.Tabs(elem_id="train_tabs"):
 
-                with gr.Tab(label="Create embedding", id="create_embedding"):
-                    new_embedding_name = gr.Textbox(label="Name", elem_id="train_new_embedding_name")
-                    initialization_text = gr.Textbox(label="Initialization text", value="*", elem_id="train_initialization_text")
-                    nvpt = gr.Slider(label="Number of vectors per token", minimum=1, maximum=75, step=1, value=1, elem_id="train_nvpt")
-                    overwrite_old_embedding = gr.Checkbox(value=False, label="Overwrite Old Embedding", elem_id="train_overwrite_old_embedding")
+                with gr.Tab(label="埋め込みを作成", id="create_embedding"):
+                    new_embedding_name = gr.Textbox(label="名前", elem_id="train_new_embedding_name")
+                    initialization_text = gr.Textbox(label="初期化テキスト", value="*", elem_id="train_initialization_text")
+                    nvpt = gr.Slider(label="トークンあたりのベクトル数", minimum=1, maximum=75, step=1, value=1, elem_id="train_nvpt")
+                    overwrite_old_embedding = gr.Checkbox(value=False, label="古い埋め込みを上書き", elem_id="train_overwrite_old_embedding")
 
                     with gr.Row():
                         with gr.Column(scale=3):
@@ -916,16 +916,16 @@ def create_ui():
                         with gr.Column():
                             create_embedding = gr.Button(value="埋め込みを作成", variant='primary', elem_id="train_create_embedding")
 
-                with gr.Tab(label="Create hypernetwork", id="create_hypernetwork"):
-                    new_hypernetwork_name = gr.Textbox(label="Name", elem_id="train_new_hypernetwork_name")
-                    new_hypernetwork_sizes = gr.CheckboxGroup(label="Modules", value=["768", "320", "640", "1280"], choices=["768", "1024", "320", "640", "1280"], elem_id="train_new_hypernetwork_sizes")
-                    new_hypernetwork_layer_structure = gr.Textbox("1, 2, 1", label="Enter hypernetwork layer structure", placeholder="1st and last digit must be 1. ex:'1, 2, 1'", elem_id="train_new_hypernetwork_layer_structure")
-                    new_hypernetwork_activation_func = gr.Dropdown(value="linear", label="Select activation function of hypernetwork. Recommended : Swish / Linear(none)", choices=hypernetworks_ui.keys, elem_id="train_new_hypernetwork_activation_func")
-                    new_hypernetwork_initialization_option = gr.Dropdown(value = "Normal", label="Select Layer weights initialization. Recommended: Kaiming for relu-like, Xavier for sigmoid-like, Normal otherwise", choices=["Normal", "KaimingUniform", "KaimingNormal", "XavierUniform", "XavierNormal"], elem_id="train_new_hypernetwork_initialization_option")
-                    new_hypernetwork_add_layer_norm = gr.Checkbox(label="Add layer normalization", elem_id="train_new_hypernetwork_add_layer_norm")
-                    new_hypernetwork_use_dropout = gr.Checkbox(label="Use dropout", elem_id="train_new_hypernetwork_use_dropout")
-                    new_hypernetwork_dropout_structure = gr.Textbox("0, 0, 0", label="Enter hypernetwork Dropout structure (or empty). Recommended : 0~0.35 incrementing sequence: 0, 0.05, 0.15", placeholder="1st and last digit must be 0 and values should be between 0 and 1. ex:'0, 0.01, 0'")
-                    overwrite_old_hypernetwork = gr.Checkbox(value=False, label="Overwrite Old Hypernetwork", elem_id="train_overwrite_old_hypernetwork")
+                with gr.Tab(label="ハイパーネットワークを作成", id="create_hypernetwork"):
+                    new_hypernetwork_name = gr.Textbox(label="名前", elem_id="train_new_hypernetwork_name")
+                    new_hypernetwork_sizes = gr.CheckboxGroup(label="モジュール", value=["768", "320", "640", "1280"], choices=["768", "1024", "320", "640", "1280"], elem_id="train_new_hypernetwork_sizes")
+                    new_hypernetwork_layer_structure = gr.Textbox("1, 2, 1", label="ハイパーネットワークの層構造を入力", placeholder="最初と最後の数字は1である必要があります。例:'1, 2, 1'", elem_id="train_new_hypernetwork_layer_structure")
+                    new_hypernetwork_activation_func = gr.Dropdown(value="linear", label="ハイパーネットワークの活性化関数を選択。推奨 : Swish / Linear(none)", choices=hypernetworks_ui.keys, elem_id="train_new_hypernetwork_activation_func")
+                    new_hypernetwork_initialization_option = gr.Dropdown(value = "Normal", label="層の重み初期化を選択。推奨: relu-likeにはKaiming、sigmoid-likeにはXavier、それ以外はNormal", choices=["Normal", "KaimingUniform", "KaimingNormal", "XavierUniform", "XavierNormal"], elem_id="train_new_hypernetwork_initialization_option")
+                    new_hypernetwork_add_layer_norm = gr.Checkbox(label="層正規化を追加", elem_id="train_new_hypernetwork_add_layer_norm")
+                    new_hypernetwork_use_dropout = gr.Checkbox(label="ドロップアウトを使用", elem_id="train_new_hypernetwork_use_dropout")
+                    new_hypernetwork_dropout_structure = gr.Textbox("0, 0, 0", label="ハイパーネットワークのドロップアウト構造を入力 (または空)", placeholder="最初と最後の数字は0である必要があります。値は0から1の間である必要があります。例:'0, 0.01, 0'", elem_id="train_new_hypernetwork_dropout_structure")
+                    overwrite_old_hypernetwork = gr.Checkbox(value=False, label="古いハイパーネットワークを上書き", elem_id="train_overwrite_old_hypernetwork")
 
                     with gr.Row():
                         with gr.Column(scale=3):
@@ -937,7 +937,7 @@ def create_ui():
                 def get_textual_inversion_template_names():
                     return sorted(textual_inversion.textual_inversion_templates)
 
-                with gr.Tab(label="Train", id="train"):
+                with gr.Tab(label="訓練", id="train"):
                     gr.HTML(value="<p style='margin-bottom: 0.7em'>埋め込みやハイパーネットワークの訓練;1:1比率の画像セットを持つディレクトリを指定する必要があります <a href=\"https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Textual-Inversion\" style=\"font-weight:bold;\">[wiki]</a></p>")
                     with FormRow():
                         train_embedding_name = gr.Dropdown(label='埋め込み', elem_id="train_embedding", choices=sorted(sd_hijack.model_hijack.embedding_db.word_embeddings.keys()))

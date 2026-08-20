@@ -64,26 +64,26 @@ def save_config_state(name):
     current_config_state["name"] = name
     timestamp = datetime.now().strftime('%Y_%m_%d-%H_%M_%S')
     filename = os.path.join(config_states_dir, f"{timestamp}_{name}.json")
-    print(f"Saving backup of webui/extension state to {filename}.")
+    print(f"webui/extensionの状態のバックアップを{filename}に保存します...")
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(current_config_state, f, indent=4, ensure_ascii=False)
     config_states.list_config_states()
     new_value = next(iter(config_states.all_config_states.keys()), "Current")
     new_choices = ["Current"] + list(config_states.all_config_states.keys())
-    return gr.Dropdown.update(value=new_value, choices=new_choices), f"<span>Saved current webui/extension state to \"{filename}\"</span>"
+    return gr.Dropdown.update(value=new_value, choices=new_choices), f"<span>{filename}に現在のwebui/extensionの状態を保存しました</span>"
 
 
 def restore_config_state(confirmed, config_state_name, restore_type):
     if config_state_name == "Current":
-        return "<span>Select a config to restore from.</span>"
+        return "<span>復元する設定を選択してください。</span>"
     if not confirmed:
-        return "<span>Cancelled.</span>"
+        return "<span>キャンセルされました。</span>"
 
     check_access()
 
     config_state = config_states.all_config_states[config_state_name]
 
-    print(f"*** Restoring webui state from backup: {restore_type} ***")
+    print(f"*** バックアップからwebuiの状態を復元する:{restore_type} ***")
 
     if restore_type == "extensions" or restore_type == "both":
         shared.opts.restore_config_state_file = config_state["filepath"]
@@ -101,7 +101,7 @@ def check_updates(id_task, disable_list):
     check_access()
 
     disabled = json.loads(disable_list)
-    assert type(disabled) == list, f"wrong disable_list data for apply_and_restart: {disable_list}"
+    assert type(disabled) == list, f"apply_and_restartの誤ったapply_disable_listデータ: {disable_list}"
 
     exts = [ext for ext in extensions.extensions if ext.remote is not None and ext.name not in disabled]
     shared.state.job_count = len(exts)
@@ -318,7 +318,7 @@ def update_config_states_table(state_name):
 </table>"""
 
     except Exception as e:
-        print(f"[ERROR]: Config states {filepath}, {e}")
+        print(f"[エラー]: 設定状態 {filepath}, {e}")
         code = f"""<!-- {time.time()} -->
 <h2>Config Backup: {config_name}</h2>
 <div><b>Filepath:</b> {filepath}</div>
