@@ -141,13 +141,13 @@ def extension_table():
             <tr>
                 <th>
                     <input class="gr-check-radio gr-checkbox all_extensions_toggle" type="checkbox" {'checked="checked"' if all(ext.enabled for ext in extensions.extensions) else ''} onchange="toggle_all_extensions(event)" />
-                    <abbr title="Use checkbox to enable the extension; it will be enabled or disabled when you click apply button">Extension</abbr>
+                    <abbr title="拡張機能を有効にするにはチェックボックスを使います;適用ボタンをクリックすると有効または無効になります">Extension</abbr>
                 </th>
                 <th>URL</th>
                 <th>Branch</th>
                 <th>Version</th>
                 <th>Date</th>
-                <th><abbr title="Use checkbox to mark the extension for update; it will be updated when you click apply button">Update</abbr></th>
+                <th><abbr title="更新対象として拡張機能をマークするにはチェックボックスを使います;適用ボタンをクリックすると更新されます">Update</abbr></th>
             </tr>
         </thead>
         <tbody>
