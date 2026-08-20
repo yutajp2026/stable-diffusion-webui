@@ -30,6 +30,7 @@ goto :show_stdout_stderr
 if ["%VENV_DIR%"] == ["-"] goto :skip_venv
 if ["%SKIP_VENV%"] == ["1"] goto :skip_venv
 
+
 dir "%VENV_DIR%\Scripts\Python.exe" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :activate_venv
 
@@ -46,6 +47,7 @@ if %ERRORLEVEL% == 0 goto :activate_venv
 echo 警告: PIPをアップグレードできませんでした。
 
 :activate_venv
+title Stable Diffusion WebUI - %VENV_DIR%\Scripts\activate.bat
 set PYTHON="%VENV_DIR%\Scripts\Python.exe"
 call "%VENV_DIR%\Scripts\activate.bat"
 
