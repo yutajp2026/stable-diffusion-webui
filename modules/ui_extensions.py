@@ -355,11 +355,11 @@ def install_extension_from_url(dirname, url, branch_name=None):
         dirname = get_extension_dirname_from_url(url)
 
     target_dir = os.path.join(extensions.extensions_dir, dirname)
-    assert not os.path.exists(target_dir), f'Extension directory already exists: {target_dir}'
+    assert not os.path.exists(target_dir), f'拡張ディレクトリはすでに存在します: {target_dir}'
 
     normalized_url = normalize_git_url(url)
     if any(x for x in extensions.extensions if normalize_git_url(x.remote) == normalized_url):
-        raise Exception(f'Extension with this URL is already installed: {url}')
+        raise Exception(f'このURLの拡張機能はすでにインストールされています: {url}')
 
     tmpdir = os.path.join(paths.data_path, "tmp", dirname)
 
@@ -550,7 +550,7 @@ def create_ui():
 
     with gr.Blocks(analytics_enabled=False) as ui:
         with gr.Tabs(elem_id="tabs_extensions"):
-            with gr.TabItem("Installed", id="installed"):
+            with gr.TabItem("インストール済み", id="installed"):
 
                 with gr.Row(elem_id="extensions_installed_top"):
                     apply_label = ("Apply and restart UI" if restart.is_restartable() else "Apply and quit")
@@ -595,24 +595,24 @@ def create_ui():
                     outputs=[extensions_table, info],
                 )
 
-            with gr.TabItem("Available", id="available"):
+            with gr.TabItem("利用可能", id="available"):
                 with gr.Row():
-                    refresh_available_extensions_button = gr.Button(value="Load from:", variant="primary")
+                    refresh_available_extensions_button = gr.Button(value="ロード", variant="primary")
                     extensions_index_url = os.environ.get('WEBUI_EXTENSIONS_INDEX', "https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui-extensions/master/index.json")
-                    available_extensions_index = gr.Text(value=extensions_index_url, label="Extension index URL", container=False)
+                    available_extensions_index = gr.Text(value=extensions_index_url, label="拡張機能インデックスURL", container=False)
                     extension_to_install = gr.Text(elem_id="extension_to_install", visible=False)
                     install_extension_button = gr.Button(elem_id="install_extension_button", visible=False)
 
                 with gr.Row():
-                    selected_tags = gr.CheckboxGroup(value=["ads", "localization", "installed"], label="Extension tags", choices=["script", "ads", "localization", "installed"], elem_classes=['compact-checkbox-group'])
-                    sort_column = gr.Radio(value="newest first", label="Order", choices=["newest first", "oldest first", "a-z", "z-a", "internal order",'update time', 'create time', "stars"], type="index", elem_classes=['compact-checkbox-group'])
+                    selected_tags = gr.CheckboxGroup(value=["ads", "localization", "installed"], label="拡張タグ", choices=["script", "ads", "localization", "installed"], elem_classes=['compact-checkbox-group'])
+                    sort_column = gr.Radio(value="newest first", label="指示", choices=["newest first", "oldest first", "a-z", "z-a", "internal order",'update time', 'create time', "stars"], type="index", elem_classes=['compact-checkbox-group'])
 
                 with gr.Row():
-                    showing_type = gr.Radio(value="hide", label="Showing type", choices=["hide", "show"], elem_classes=['compact-checkbox-group'])
-                    filtering_type = gr.Radio(value="or", label="Filtering type", choices=["or", "and"], elem_classes=['compact-checkbox-group'])
+                    showing_type = gr.Radio(value="hide", label="表示タイプ", choices=["hide", "show"], elem_classes=['compact-checkbox-group'])
+                    filtering_type = gr.Radio(value="or", label="フィルタリングタイプ", choices=["or", "and"], elem_classes=['compact-checkbox-group'])
 
                 with gr.Row():
-                    search_extensions_text = gr.Text(label="Search", container=False)
+                    search_extensions_text = gr.Text(label="検索", container=False)
 
                 install_result = gr.HTML()
                 available_extensions_table = gr.HTML()
@@ -659,11 +659,11 @@ def create_ui():
                     outputs=[available_extensions_table, install_result]
                 )
 
-            with gr.TabItem("Install from URL", id="install_from_url"):
-                install_url = gr.Text(label="URL for extension's git repository")
-                install_branch = gr.Text(label="Specific branch name", placeholder="Leave empty for default main branch")
-                install_dirname = gr.Text(label="Local directory name", placeholder="Leave empty for auto")
-                install_button = gr.Button(value="Install", variant="primary")
+            with gr.TabItem("URLからインストール", id="install_from_url"):
+                install_url = gr.Text(label="拡張機能のgitリポジトリのURL")
+                install_branch = gr.Text(label="特定のブランチ名", placeholder="デフォルトのメインブランチを空にする")
+                install_dirname = gr.Text(label="ローカルディレクトリ名", placeholder="自動で空のままにする")
+                install_button = gr.Button(value="インストール", variant="primary")
                 install_result = gr.HTML(elem_id="extension_install_result")
 
                 install_button.click(
@@ -674,16 +674,16 @@ def create_ui():
 
             with gr.TabItem("Backup/Restore"):
                 with gr.Row(elem_id="extensions_backup_top_row"):
-                    config_states_list = gr.Dropdown(label="Saved Configs", elem_id="extension_backup_saved_configs", value="Current", choices=["Current"] + list(config_states.all_config_states.keys()))
+                    config_states_list = gr.Dropdown(label="保存済み設定", elem_id="extension_backup_saved_configs", value="Current", choices=["Current"] + list(config_states.all_config_states.keys()))
                     modules.ui.create_refresh_button(config_states_list, config_states.list_config_states, lambda: {"choices": ["Current"] + list(config_states.all_config_states.keys())}, "refresh_config_states")
-                    config_restore_type = gr.Radio(label="State to restore", choices=["extensions", "webui", "both"], value="extensions", elem_id="extension_backup_restore_type")
-                    config_restore_button = gr.Button(value="Restore Selected Config", variant="primary", elem_id="extension_backup_restore")
+                    config_restore_type = gr.Radio(label="復元する状態", choices=["extensions", "webui", "both"], value="extensions", elem_id="extension_backup_restore_type")
+                    config_restore_button = gr.Button(value="選択した設定を復元", variant="primary", elem_id="extension_backup_restore")
                 with gr.Row(elem_id="extensions_backup_top_row2"):
-                    config_save_name = gr.Textbox("", placeholder="Config Name", show_label=False)
-                    config_save_button = gr.Button(value="Save Current Config")
+                    config_save_name = gr.Textbox("", placeholder="設定名", show_label=False)
+                    config_save_button = gr.Button(value="現在の設定を保存")
 
                 config_states_info = gr.HTML("")
-                config_states_table = gr.HTML("Loading...")
+                config_states_table = gr.HTML("ロード中...")
                 ui.load(fn=update_config_states_table, inputs=[config_states_list], outputs=[config_states_table])
 
                 config_save_button.click(fn=save_config_state, inputs=[config_save_name], outputs=[config_states_list, config_states_info])

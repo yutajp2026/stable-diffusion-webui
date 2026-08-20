@@ -119,9 +119,9 @@ class UiSettings:
         with gr.Blocks(analytics_enabled=False) as settings_interface:
             with gr.Row():
                 with gr.Column(scale=6):
-                    self.submit = gr.Button(value="Apply settings", variant='primary', elem_id="settings_submit")
+                    self.submit = gr.Button(value="設定を適用", variant='primary', elem_id="settings_submit")
                 with gr.Column():
-                    restart_gradio = gr.Button(value='Reload UI', variant='primary', elem_id="settings_restart_gradio")
+                    restart_gradio = gr.Button(value='UIを再読み込み', variant='primary', elem_id="settings_restart_gradio")
 
             self.result = gr.HTML(elem_id="settings_result")
 
@@ -181,21 +181,21 @@ class UiSettings:
                             pass
 
                 with gr.TabItem("Actions", id="actions", elem_id="settings_tab_actions"):
-                    request_notifications = gr.Button(value='Request browser notifications', elem_id="request_notifications")
-                    download_localization = gr.Button(value='Download localization template', elem_id="download_localization")
-                    reload_script_bodies = gr.Button(value='Reload custom script bodies (No ui updates, No restart)', variant='secondary', elem_id="settings_reload_script_bodies")
+                    request_notifications = gr.Button(value='ブラウザ通知をリクエストする', elem_id="request_notifications")
+                    download_localization = gr.Button(value='ローカリゼーションテンプレートをダウンロード', elem_id="download_localization")
+                    reload_script_bodies = gr.Button(value='カスタムスクリプトのボディを再読み込み(UI更新なし、再起動なし)', variant='secondary', elem_id="settings_reload_script_bodies")
                     with gr.Row():
-                        unload_sd_model = gr.Button(value='Unload SD checkpoint to RAM', elem_id="sett_unload_sd_model")
-                        reload_sd_model = gr.Button(value='Load SD checkpoint to VRAM from RAM', elem_id="sett_reload_sd_model")
+                        unload_sd_model = gr.Button(value='SDチェックポイントをRAMにアンロード', elem_id="sett_unload_sd_model")
+                        reload_sd_model = gr.Button(value='SDチェックポイントをVRAMにロード', elem_id="sett_reload_sd_model")
                     with gr.Row():
-                        calculate_all_checkpoint_hash = gr.Button(value='Calculate hash for all checkpoint', elem_id="calculate_all_checkpoint_hash")
-                        calculate_all_checkpoint_hash_threads = gr.Number(value=1, label="Number of parallel calculations", elem_id="calculate_all_checkpoint_hash_threads", precision=0, minimum=1)
+                        calculate_all_checkpoint_hash = gr.Button(value='すべてのチェックポイントでハッシュを計算', elem_id="calculate_all_checkpoint_hash")
+                        calculate_all_checkpoint_hash_threads = gr.Number(value=1, label="並列計算の数", elem_id="calculate_all_checkpoint_hash_threads", precision=0, minimum=1)
 
                 with gr.TabItem("Licenses", id="licenses", elem_id="settings_tab_licenses"):
                     gr.HTML(shared.html("licenses.html"), elem_id="licenses")
 
-                self.show_all_pages = gr.Button(value="Show all pages", elem_id="settings_show_all_pages")
-                self.show_one_page = gr.Button(value="Show only one page", elem_id="settings_show_one_page", visible=False)
+                self.show_all_pages = gr.Button(value="すべてのページを表示", elem_id="settings_show_all_pages")
+                self.show_one_page = gr.Button(value="1ページのみを表示", elem_id="settings_show_one_page", visible=False)
                 self.show_one_page.click(lambda: None)
 
                 self.search_input = gr.Textbox(value="", elem_id="settings_search", max_lines=1, placeholder="Search...", show_label=False)
@@ -319,7 +319,7 @@ class UiSettings:
                     show_progress=info.refresh is not None,
                 )
 
-        button_set_checkpoint = gr.Button('Change checkpoint', elem_id='change_checkpoint', visible=False)
+        button_set_checkpoint = gr.Button('チェックポイントを変更', elem_id='change_checkpoint', visible=False)
         button_set_checkpoint.click(
             fn=lambda value, _: self.run_settings_single(value, key='sd_model_checkpoint'),
             _js="function(v){ var res = desiredCheckpointName; desiredCheckpointName = ''; return [res || v, null]; }",
