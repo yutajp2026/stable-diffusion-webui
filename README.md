@@ -98,17 +98,18 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 ## インストールと実行
 
 ### Windows 10/11 へのインストール
-ℹ️公式ではいろいろなGPU別にインストール方法が載っていますが、リポジトリが存在しない問題(後述)に悩まされるのでここでは記載しません。また、アプリ版ではNvidia GPU搭載かを自動で判断してくれるようにしました。
+ℹ️周知しておきたい内容
+- 公式ではいろいろなGPU別にインストール方法が載っていますが、リポジトリが存在しない問題(後述)に悩まされるのでここでは記載しません。
+- アプリ版ではNvidia GPU搭載かを自動で判断してくれるようにしました。自動インストールの場合はCOMMANDLINE_ARGSを設定します(後述)。
+- Pythonはwebui.batにて自動でインストールされるようにしました。
+- Pythonのバージョンが競合する場合は環境変数Pathから使わないPythonのパスを削除するとよいです。
 
 **アプリ版(Windows推奨)**:
 
 公開予定
 
 自動インストール(とても大変):
-
-ℹ️webui.batにてPythonは自動でインストールされるようにしました。
-
-1. [Git](https://git-scm.com/download/win) をインストールします。
+1. [Git](https://git-scm.com/download/win) をインストールします。(`winget install --id Git.Git -e --source winget`を実行するとよい)
 2. stable-diffusion-webui リポジトリをダウンロードします。たとえば `git clone https://github.com/yutajp2026/stable-diffusion-webui-jp.git` を実行します。
 3. `set COMMANDLINE_ARGS=(コマンドライン引数)`を実行し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。コマンドライン引数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 
