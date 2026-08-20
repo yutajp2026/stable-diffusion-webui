@@ -37,7 +37,7 @@ def create_setting_component(key, is_quicksettings=False):
     elif t == bool:
         comp = gr.Checkbox
     else:
-        raise Exception(f'bad options item type: {t} for key {key}')
+        raise Exception(f'悪いオプションのアイテムタイプ: {t} そしてキー {key}')
 
     elem_id = f"setting_{key}"
 
@@ -73,7 +73,7 @@ class UiSettings:
         changed = []
 
         for key, value, comp in zip(opts.data_labels.keys(), args, self.components):
-            assert comp == self.dummy_component or opts.same_type(value, opts.data_labels[key].default), f"Bad value for setting {key}: {value}; expecting {type(opts.data_labels[key].default).__name__}"
+            assert comp == self.dummy_component or opts.same_type(value, opts.data_labels[key].default), f"設定の悪い値 {key}: {value}; 予測しています {type(opts.data_labels[key].default).__name__}"
 
         for key, value, comp in zip(opts.data_labels.keys(), args, self.components):
             if comp == self.dummy_component:
@@ -85,8 +85,8 @@ class UiSettings:
         try:
             opts.save(shared.config_filename)
         except RuntimeError:
-            return opts.dumpjson(), f'{len(changed)} settings changed without save: {", ".join(changed)}.'
-        return opts.dumpjson(), f'{len(changed)} settings changed{": " if changed else ""}{", ".join(changed)}.'
+            return opts.dumpjson(), f'{len(changed)} セーブなしで設定を変更しました: {", ".join(changed)}.'
+        return opts.dumpjson(), f'{len(changed)} 設定を変更しました: {", ".join(changed)}.'
 
     def run_settings_single(self, value, key):
         if not opts.same_type(value, opts.data_labels[key].default):
@@ -278,7 +278,7 @@ class UiSettings:
                     for _ in as_completed(futures):
                         completed += 1
                         print(f"{completed} / {len(checkpoints_list)} ")
-                    print("Finish calculating hash for all checkpoints")
+                    print("すべてのチェックポイントのハッシュ計算を完了します")
 
             calculate_all_checkpoint_hash.click(
                 fn=calculate_all_checkpoint_hash_fn,

@@ -119,7 +119,7 @@ def webui():
             script_callbacks.app_started_callback(shared.demo, app)
 
         timer.startup_record = startup_timer.dump()
-        print(f"Startup time: {startup_timer.summary()}.")
+        print(f"起動時間: {startup_timer.summary()}.")
 
         try:
             while True:
@@ -142,7 +142,7 @@ def webui():
         # disable auto launch webui in browser for subsequent UI Reload
         os.environ.setdefault('SD_WEBUI_RESTARTING', '1')
 
-        print('Restarting UI...')
+        print('UIを再起動しています...')
         shared.demo.close()
         time.sleep(0.5)
         startup_timer.reset()

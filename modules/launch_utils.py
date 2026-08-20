@@ -425,7 +425,7 @@ def prepare_environment():
     tag = git_tag()
     startup_timer.record("git version info")
 
-    print(f"Pythonバージョン: {sys.version}")
+    print(f"Python: {sys.version}")
     print(f"バージョン: {tag}")
     print(f"コミットハッシュ: {commit}")
 
@@ -519,7 +519,7 @@ def configure_for_tests():
 
 
 def start():
-    print(f"Launching {'API server' if '--nowebui' in sys.argv else 'Web UI'} with arguments: {shlex.join(sys.argv[1:])}")
+    print(f"引数 {shlex.join(sys.argv[1:])} で {'API server' if '--nowebui' in sys.argv else 'Web UI'} を起動しています...")
     import webui
     if '--nowebui' in sys.argv:
         webui.api_only()
