@@ -538,19 +538,19 @@ def create_ui():
                             img2img_selected_tab = gr.Number(value=0, visible=False)
 
                             with gr.TabItem('img2img', id='img2img', elem_id="img2img_img2img_tab") as tab_img2img:
-                                init_img = gr.Image(label="Image for img2img", elem_id="img2img_image", show_label=False, source="upload", interactive=True, type="pil", tool="editor", image_mode="RGBA", height=opts.img2img_editor_height)
+                                init_img = gr.Image(label="img2imgの画像", elem_id="img2img_image", show_label=False, source="upload", interactive=True, type="pil", tool="editor", image_mode="RGBA", height=opts.img2img_editor_height)
                                 add_copy_image_controls('img2img', init_img)
 
                             with gr.TabItem('スケッチ', id='img2img_sketch', elem_id="img2img_img2img_sketch_tab") as tab_sketch:
-                                sketch = gr.Image(label="Image for img2img", elem_id="img2img_sketch", show_label=False, source="upload", interactive=True, type="pil", tool="color-sketch", image_mode="RGB", height=opts.img2img_editor_height, brush_color=opts.img2img_sketch_default_brush_color)
+                                sketch = gr.Image(label="img2imgのスケッチ", elem_id="img2img_sketch", show_label=False, source="upload", interactive=True, type="pil", tool="color-sketch", image_mode="RGB", height=opts.img2img_editor_height, brush_color=opts.img2img_sketch_default_brush_color)
                                 add_copy_image_controls('sketch', sketch)
 
                             with gr.TabItem('インペイント', id='inpaint', elem_id="img2img_inpaint_tab") as tab_inpaint:
-                                init_img_with_mask = gr.Image(label="Image for inpainting with mask", show_label=False, elem_id="img2maskimg", source="upload", interactive=True, type="pil", tool="sketch", image_mode="RGBA", height=opts.img2img_editor_height, brush_color=opts.img2img_inpaint_mask_brush_color)
+                                init_img_with_mask = gr.Image(label="img2imgのインペイント", elem_id="img2maskimg", show_label=False, source="upload", interactive=True, type="pil", tool="sketch", image_mode="RGBA", height=opts.img2img_editor_height, brush_color=opts.img2img_inpaint_mask_brush_color)
                                 add_copy_image_controls('inpaint', init_img_with_mask)
 
                             with gr.TabItem('インペイントスケッチ', id='inpaint_sketch', elem_id="img2img_inpaint_sketch_tab") as tab_inpaint_color:
-                                inpaint_color_sketch = gr.Image(label="Color sketch inpainting", show_label=False, elem_id="inpaint_sketch", source="upload", interactive=True, type="pil", tool="color-sketch", image_mode="RGB", height=opts.img2img_editor_height, brush_color=opts.img2img_inpaint_sketch_default_brush_color)
+                                inpaint_color_sketch = gr.Image(label="img2imgのインペイントスケッチ", elem_id="inpaint_sketch", show_label=False, source="upload", interactive=True, type="pil", tool="color-sketch", image_mode="RGB", height=opts.img2img_editor_height, brush_color=opts.img2img_inpaint_sketch_default_brush_color)
                                 inpaint_color_sketch_orig = gr.State(None)
                                 add_copy_image_controls('inpaint_sketch', inpaint_color_sketch)
 
@@ -564,14 +564,14 @@ def create_ui():
                                 inpaint_color_sketch.change(update_orig, [inpaint_color_sketch, inpaint_color_sketch_orig], inpaint_color_sketch_orig)
 
                             with gr.TabItem('インペイントアップロード', id='inpaint_upload', elem_id="img2img_inpaint_upload_tab") as tab_inpaint_upload:
-                                init_img_inpaint = gr.Image(label="Image for img2img", show_label=False, source="upload", interactive=True, type="pil", elem_id="img_inpaint_base")
-                                init_mask_inpaint = gr.Image(label="Mask", source="upload", interactive=True, type="pil", image_mode="RGBA", elem_id="img_inpaint_mask")
+                                init_img_inpaint = gr.Image(label="img2imgのインペイント", show_label=False, source="upload", interactive=True, type="pil", elem_id="img_inpaint_base")
+                                init_mask_inpaint = gr.Image(label="マスク", source="upload", interactive=True, type="pil", image_mode="RGBA", elem_id="img_inpaint_mask")
 
                             with gr.TabItem('バッチ', id='batch', elem_id="img2img_batch_tab") as tab_batch:
                                 with gr.Tabs(elem_id="img2img_batch_source"):
                                     img2img_batch_source_type = gr.Textbox(visible=False, value="upload")
                                     with gr.TabItem('アップロード', id='batch_upload', elem_id="img2img_batch_upload_tab") as tab_batch_upload:
-                                        img2img_batch_upload = gr.Files(label="Files", interactive=True, elem_id="img2img_batch_upload")
+                                        img2img_batch_upload = gr.Files(label="ファイル", interactive=True, elem_id="img2img_batch_upload")
                                     with gr.TabItem('ディレクトリから', id='batch_from_dir', elem_id="img2img_batch_from_dir_tab") as tab_batch_from_dir:
                                         hidden = '<br>Disabled when launched with --hide-ui-dir-config.' if shared.cmd_opts.hide_ui_dir_config else ''
                                         gr.HTML(

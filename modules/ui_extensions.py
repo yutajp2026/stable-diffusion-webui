@@ -605,10 +605,10 @@ def create_ui():
 
                 with gr.Row():
                     selected_tags = gr.CheckboxGroup(value=["ads", "localization", "installed"], label="拡張タグ", choices=["script", "ads", "localization", "installed"], elem_classes=['compact-checkbox-group'])
-                    sort_column = gr.Radio(value="newest first", label="指定", choices=["最新", "古い順", "a-z", "z-a", "内部指定",'更新時間', '作成時間', "星"], type="index", elem_classes=['compact-checkbox-group'])
+                    sort_column = gr.Radio(value="最新", label="指定", choices=["最新", "古い順", "a-z", "z-a", "内部指定",'更新時間', '作成時間', "星"], type="index", elem_classes=['compact-checkbox-group'])
 
                 with gr.Row():
-                    showing_type = gr.Radio(value="hide", label="表示タイプ", choices=["hide", "show"], elem_classes=['compact-checkbox-group'])
+                    showing_type = gr.Radio(value="隠れる", label="表示タイプ", choices=["隠れる", "表示"], elem_classes=['compact-checkbox-group'])
                     filtering_type = gr.Radio(value="or", label="フィルタリングタイプ", choices=["or", "and"], elem_classes=['compact-checkbox-group'])
 
                 with gr.Row():
