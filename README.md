@@ -1,4 +1,6 @@
-# Stable Diffusion web UI
+# Stable Diffusion web UI Japanese
+([元のファイル](https://github.com/AUTOMATIC1111/stable-diffusion-webui/blob/master/README.md)を日本語訳+α)
+
 Gradio ライブラリで実装された Stable Diffusion 用の Web インターフェースです。
 
 ![](screenshot.png)
@@ -82,9 +84,9 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 - 設定画面から別の VAE を読み込み可能
 - プログレスバーに完了予定時間を表示
 - API
-- RunwayML の専用 [inpainting model](https://github.com/runwayml/stable-diffusion#inpainting-with-stable-diffusion) に対応
+- RunwayML の専用 ~~[inpainting model](https://github.com/runwayml/stable-diffusion#inpainting-with-stable-diffusion)~~ (開けません) に対応
 - 拡張機能: [Aesthetic Gradients](https://github.com/AUTOMATIC1111/stable-diffusion-webui-aesthetic-gradients) で、CLIP 画像 embedding を使い特定の美的傾向を持つ画像を生成（実装は [こちら](https://github.com/vicgalle/stable-diffusion-aesthetic-gradients)）
-- [Stable Diffusion 2.0](https://github.com/Stability-AI/stablediffusion) に対応（手順は [wiki](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#stable-diffusion-20) を参照）
+- ~~[Stable Diffusion 2.0](https://github.com/Stability-AI/stablediffusion)~~ (開けません) に対応（手順は [wiki](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#stable-diffusion-20) を参照）
 - [Alt-Diffusion](https://arxiv.org/abs/2211.06679) に対応（手順は [wiki](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#alt-diffusion) を参照）
 - 不適切な文字を含まない生成
 - safetensors 形式の checkpoint を読み込み
@@ -94,24 +96,18 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 - [Segmind Stable Diffusion](https://huggingface.co/segmind/SSD-1B) に対応
 
 ## インストールと実行
-必要な [依存関係](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Dependencies) を満たしたうえで、以下の手順を参照してください:
-- [NVIDIA](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs)（推奨）
-- [AMD](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-AMD-GPUs) GPU
-- [Intel CPU、Intel GPU（内蔵およびディスクリート）](https://github.com/openvinotoolkit/stable-diffusion-webui/wiki/Installation-on-Intel-Silicon)（外部 wiki ページ）
-- [Ascend NPU](https://github.com/wangshuai09/stable-diffusion-webui/wiki/Install-and-run-on-Ascend-NPUs)（外部 wiki ページ）
 
-または、Google Colab などのオンラインサービスを利用してください:
+### リリースパッケージを使った Windows 10/11 へのインストール(Windows推奨)
+ℹ️公式ではいろいろなGPU別にインストール方法が載っていますが、一部はリポジトリが存在しない問題(後述)に悩まされるのでここでは記載しません。また、アプリ版ではNvidia GPU搭載かを自動で判断してくれるようにしました。
 
-- [オンラインサービス一覧](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Online-Services)
-
-### リリースパッケージを使った Windows 10/11 へのインストール
 公開予定
 
 ### Windows への自動インストール
-1. [Python 3.10.6](https://www.python.org/downloads/release/python-3106/) を「Add Python to PATH」にチェックを入れてインストールします（それより新しい Python は torch に対応していません）。
-2. [Git](https://git-scm.com/download/win) をインストールします。
-3. stable-diffusion-webui リポジトリをダウンロードします。たとえば `git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git` を実行します。
-4. Windows Explorer から、管理者権限ではない通常のユーザーとして `webui-user.bat` を実行します。
+ℹ️webui.batにてPythonは自動でインストールされるようにしました。
+
+1. [Git](https://git-scm.com/download/win) をインストールします。
+2. stable-diffusion-webui リポジトリをダウンロードします。たとえば `git clone https://github.com/yutajp2026/stable-diffusion-webui-jp.git` を実行します。
+3. `set COMMANDLINE_ARGS=(コマンドライン引数)`を実行し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。コマンドライン引数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 
 ### Linux への自動インストール
 1. 依存関係をインストールします:
@@ -125,7 +121,7 @@ sudo zypper install wget git python3 libtcmalloc4 libglvnd
 # Arch-based:
 sudo pacman -S wget git python3
 ```
-システムが非常に新しい場合は、python3.11 または python3.10 をインストールする必要があります:
+システムが非常に新しい場合は、python3ではなくpython3.11 または python3.10 をインストールする必要があります:
 ```bash
 # Ubuntu 24.04
 sudo add-apt-repository ppa:deadsnakes/ppa
@@ -142,20 +138,13 @@ export python_cmd="python3.11"
 # or in webui-user.sh
 python_cmd="python3.11"
 ```
-2. Web UI をインストールするディレクトリへ移動し、次のコマンドを実行します:
+2. Web UI をインストールするディレクトリへ移動し、任意の場所にリポジトリを clone します:
 ```bash
-wget -q https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh
-```
-または、任意の場所にリポジトリを clone します:
-```bash
-git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+git clone https://github.com/yutajp2026/stable-diffusion-webui-jp
 ```
 
 3. `webui.sh` を実行します。
 4. オプションについては `webui-user.sh` を確認してください。
-### Apple Silicon へのインストール
-
-手順は[こちら](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Installation-on-Apple-Silicon)を参照してください。
 
 ## コントリビューション
 このリポジトリにコードを追加する方法は、[コントリビューションガイド](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Contributing)を参照してください。
@@ -169,7 +158,7 @@ Google などの検索エンジンが wiki をクロールできるように、�
 ## クレジット
 借用したコードのライセンスは `Settings -> Licenses` 画面、および `html/licenses.html` ファイルで確認できます。
 
-- Stable Diffusion - https://github.com/Stability-AI/stablediffusion, https://github.com/CompVis/taming-transformers, https://github.com/mcmonkey4eva/sd3-ref
+- Stable Diffusion - ~~https://github.com/Stability-AI/stablediffusion~~ 使えなくなったのでこちらに変更https://github.com/CompVis/stable-diffusion, https://github.com/CompVis/taming-transformers, https://github.com/mcmonkey4eva/sd3-ref
 - k-diffusion - https://github.com/crowsonkb/k-diffusion.git
 - Spandrel - https://github.com/chaiNNer-org/spandrel による実装
   - GFPGAN - https://github.com/TencentARC/GFPGAN.git
@@ -180,7 +169,7 @@ Google などの検索エンジンが wiki をクロールできるように、�
 - LDSR - https://github.com/Hafiidz/latent-diffusion
 - MiDaS - https://github.com/isl-org/MiDaS
 - 最適化のアイデア - https://github.com/basujindal/stable-diffusion
-- Cross Attention レイヤーの最適化 - Doggettx - https://github.com/Doggettx/stable-diffusion、prompt editing の原案
+- Cross Attention レイヤーの最適化 - Doggettx - https://github.com/Doggettx/stable-diffusion 、prompt editing の原案
 - Cross Attention レイヤーの最適化 - InvokeAI、lstein - https://github.com/invoke-ai/InvokeAI（元は http://github.com/lstein/stable-diffusion）
 - Sub-quadratic Cross Attention レイヤーの最適化 - Alex Birch（https://github.com/Birch-san/diffusers/pull/1）、Amin Rezaei（https://github.com/AminRezaei0x443/memory-efficient-attention）
 - Textual Inversion - Rinon Gal - https://github.com/rinongal/textual_inversion（コードは使用していませんが、アイデアを採用しています）
@@ -200,5 +189,3 @@ Google などの検索エンジンが wiki をクロールできるように、�
 - Hypertile - tfernd - https://github.com/tfernd/HyperTile
 - 初期の Gradio スクリプト - 匿名ユーザーが 4chan に投稿。匿名ユーザーに感謝します。
 - （あなた）
-
-(元のファイルを翻訳+α)
