@@ -63,13 +63,13 @@ if EXIST %ACCELERATE% goto :accelerate_launch
 title Stable Diffusion WebUI %COMMANDLINE_ARGS%
 %PYTHON% launch.py %*
 if EXIST tmp/restart goto :skip_venv
-exit /b
+goto :endofscript
 
 :accelerate_launch
 title Stable Diffusion WebUI %COMMANDLINE_ARGS% with %ACCELERATE%
 %ACCELERATE% launch --num_cpu_threads_per_process=6 launch.py
 if EXIST tmp/restart goto :skip_venv
-exit /b
+goto :endofscript
 
 :show_stdout_stderr
 
