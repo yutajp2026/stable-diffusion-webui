@@ -40,10 +40,15 @@ except ModuleNotFoundError:
             return data
 
 try:
-    from ldm.models.diffusion.ddpm import LatentDepth2ImageDiffusion
+    from ldm.models.diffusion import ddpm as ddpm_module
 except ModuleNotFoundError:
     class LatentDepth2ImageDiffusion:
         pass
+else:
+    LatentDepth2ImageDiffusion = getattr(ddpm_module, "LatentDepth2ImageDiffusion", None)
+    if LatentDepth2ImageDiffusion is None:
+        class LatentDepth2ImageDiffusion:
+            pass
 
 from einops import repeat, rearrange
 from blendmodes.blend import blendLayers, BlendType
