@@ -1,6 +1,6 @@
 @echo off
 
-title Stable Diffusion WebUI - Pythonã¨pipã‚’ç¢ºèªã—ã¦ã„ã¾ã™...
+title Stable Diffusion WebUI - Python‚Æpip‚ðŠm”F‚µ‚Ä‚¢‚Ü‚·...
 
 if not defined PYTHON (set PYTHON=python)
 if defined GIT (set "GIT_PYTHON_GIT_EXECUTABLE=%GIT%")
@@ -13,9 +13,9 @@ mkdir tmp 2>NUL
 
 %PYTHON% -c "" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :check_pip
-title Stable Diffusion WebUI - Pythonã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ã¾ã™...
+title Stable Diffusion WebUI - Python‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚¢‚Ü‚·...
 curl  -L -O "https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe"
-echo msgbox "Pythonã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ©ã‚’é–‹ãã¾ã™ã€‚ã€ŒAdd python.exe to PATHã€ã¸ãƒã‚§ãƒƒã‚¯ã‚’å…¥ã‚Œã€ã€ŒInstall Nowã€ã‚’é¸æŠžã—ã¦ãã ã•ã„ã€‚ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã§ããŸã‚‰ã“ã®ã‚¢ãƒ—ãƒªã‚’ã‚‚ã†ä¸€åº¦èµ·å‹•ã—ã¦ãã ã•ã„ã€‚" > %TEMP%/msgboxtest.vbs & %TEMP%/msgboxtest.vbs
+echo msgbox "PythonƒCƒ“ƒXƒg[ƒ‰‚ðŠJ‚«‚Ü‚·BuAdd python.exe to PATHv‚Öƒ`ƒFƒbƒN‚ð“ü‚êAuInstall Nowv‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢BƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚½‚ç‚±‚ÌƒAƒvƒŠ‚ð‚à‚¤ˆê“x‹N“®‚µ‚Ä‚­‚¾‚³‚¢B" > %TEMP%/msgboxtest.vbs & %TEMP%/msgboxtest.vbs
 start python-3.10.6-amd64.exe & goto :show_stdout_stderr
 
 :check_pip
@@ -34,16 +34,16 @@ dir "%VENV_DIR%\Scripts\Python.exe" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :activate_venv
 
 for /f "delims=" %%i in ('CALL %PYTHON% -c "import sys; print(sys.executable)"') do set PYTHON_FULLNAME="%%i"
-title Stable Diffusion WebUI - %PYTHON_FULLNAME% ã‚’ä½¿ã£ã¦ %VENV_DIR% ã‚’ä½œæˆã—ã¦ã„ã¾ã™...
+title Stable Diffusion WebUI - %PYTHON_FULLNAME% ‚ðŽg‚Á‚Ä %VENV_DIR% ‚ðì¬‚µ‚Ä‚¢‚Ü‚·...
 %PYTHON_FULLNAME% -m venv "%VENV_DIR%" >tmp/stdout.txt 2>tmp/stderr.txt
 if %ERRORLEVEL% == 0 goto :upgrade_pip
 goto :show_stdout_stderr
 
 :upgrade_pip
-title Stable Diffusion WebUI - PIPã‚’ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰ã—ã¦ã„ã¾ã™...
+title Stable Diffusion WebUI - PIP‚ðƒAƒbƒvƒOƒŒ[ƒh‚µ‚Ä‚¢‚Ü‚·...
 "%VENV_DIR%\Scripts\Python.exe" -m pip install --upgrade pip
 if %ERRORLEVEL% == 0 goto :activate_venv
-echo è­¦å‘Š: PIPã‚’ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚
+echo Œx: PIP‚ðƒAƒbƒvƒOƒŒ[ƒh‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 
 :activate_venv
 set PYTHON="%VENV_DIR%\Scripts\Python.exe"
@@ -90,4 +90,4 @@ type tmp\stderr.txt
 :endofscript
 
 echo.
-echo msgbox "èµ·å‹•ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" > %TEMP%/msgboxtest.vbs & %TEMP%/msgboxtest.vbs
+echo msgbox "‹N“®‚ÉŽ¸”s‚µ‚Ü‚µ‚½B" > %TEMP%/msgboxtest.vbs & %TEMP%/msgboxtest.vbs
