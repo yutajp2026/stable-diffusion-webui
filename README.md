@@ -151,7 +151,7 @@ git clone https://github.com/yutajp2026/stable-diffusion-webui-jp
 4. 変数(後述)については `webui-user.sh` を編集してください。
 
 ### 変数
-コマンドライン引数(COMMANDLINE_ARGS)については、-hに設定すると簡単に確認できます(Windows:`set COMMANDLINE_ARGS=-h` Linux:`export COMMANDLINE=-h`)。
+コマンドライン引数(COMMANDLINE_ARGS)については、-hに設定すると簡単に確認できます(Windows:`set COMMANDLINE_ARGS=-h & webui.bat` Linux:`export COMMANDLINE=-h`を直接またはwebui-user.shに記入して`webui.sh`)。
 
 それ以外の変数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 ## コントリビューション
