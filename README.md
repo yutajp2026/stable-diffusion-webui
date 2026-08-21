@@ -152,7 +152,7 @@ git clone https://github.com/yutajp2026/stable-diffusion-webui-jp
 
 ### 変数
 - コマンドライン引数(COMMANDLINE_ARGS)については、-hに設定すると簡単に確認できます。
-- 公式ではおそらく言及されていませんが、ACCELERATEを"True"に設定するとaccelerateで実行できます。詳細
+- 公式ではおそらく言及されていませんが、ACCELERATEを"True"に設定するとaccelerateで実行できます。[詳細](https://self-development.info/%e3%80%90pytorch%e3%80%91accelerate%e3%81%ae%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%a8%e8%a8%ad%e5%ae%9a/)
 
 それ以外の変数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 ## コントリビューション
