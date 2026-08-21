@@ -76,7 +76,7 @@ def wrap_gradio_call_no_job(func, extra_outputs=None, add_stats=False):
             # When printing out our debug argument list,
             # do not print out more than a 100 KB of text
             max_debug_str_len = 131072
-            message = "Error completing request"
+            message = "エラー完了リクエスト"
             arg_str = f"Arguments: {args} {kwargs}"[:max_debug_str_len]
             if len(arg_str) > max_debug_str_len:
                 arg_str += f" (Argument list truncated at {max_debug_str_len}/{len(arg_str)} characters)"
@@ -108,9 +108,9 @@ def wrap_gradio_call_no_job(func, extra_outputs=None, add_stats=False):
             sys_total = mem_stats['total']
             sys_pct = sys_peak/max(sys_total, 1) * 100
 
-            toltip_a = "Active: peak amount of video memory used during generation (excluding cached data)"
-            toltip_r = "Reserved: total amount of video memory allocated by the Torch library "
-            toltip_sys = "System: peak amount of video memory allocated by all running programs, out of total capacity"
+            toltip_a = "アクティブ:生成時に使用されるビデオメモリのピーク量(キャッシュデータを除く)"
+            toltip_r = "予約:Torchライブラリによって割り当てられたビデオメモリの総量"
+            toltip_sys = "システム:すべての実行中のプログラムが割り当てたビデオメモリのピーク量、総容量を超えた"
 
             text_a = f"<abbr title='{toltip_a}'>A</abbr>: <span class='measurement'>{active_peak/1024:.2f} GB</span>"
             text_r = f"<abbr title='{toltip_r}'>R</abbr>: <span class='measurement'>{reserved_peak/1024:.2f} GB</span>"

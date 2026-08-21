@@ -36,7 +36,7 @@ def convert_old_cached_data():
         return
     except Exception:
         os.replace(cache_filename, os.path.join(script_path, "tmp", "cache.json"))
-        print('[ERROR] issue occurred while trying to read cache.json; old cache has been moved to tmp/cache.json')
+        print('[エラー]cache.jsonを読み込もうとして問題が発生しました;古いキャッシュはTMP/cache.jsonに移行しました。')
         return
 
     total_count = sum(len(keyvalues) for keyvalues in data.values())
