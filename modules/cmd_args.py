@@ -75,6 +75,7 @@ parser.add_argument("--listen", action='store_true', help="0.0.0.0 をサーバ�
 parser.add_argument("--port", type=int, help="指定したサーバーポートで gradio を起動する。1024 未満のポートには管理者権限が必要。利用可能な場合のデフォルトは 7860", default=None)
 parser.add_argument("--show-negative-prompt", action='store_true', help="launch.py 引数: 何もしません", default=False)
 parser.add_argument("--ui-config-file", type=str, help="launch.py 引数: UI 設定に使用するファイル名", default=os.path.join(data_path, 'ui-config.json'))
+parser.add_argument("--theme", type=str, choices=["light", "dark"], default=None, help="UI のテーマ")
 parser.add_argument("--hide-ui-dir-config", action='store_true', help="launch.py 引数: webui からディレクトリ設定を隠す", default=False)
 parser.add_argument("--freeze-settings", action='store_true', help="launch.py 引数: すべての設定の編集を全体的に無効にする", default=False)
 parser.add_argument("--freeze-settings-in-sections", type=str, help='launch.py 引数: 設定ページの特定セクションの編集を無効にする。"saving-images,upscaling" のようにカンマ区切りで指定します。設定名の一覧は modules/shared_options.py にあります', default=None)
