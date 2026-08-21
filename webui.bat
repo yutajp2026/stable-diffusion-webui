@@ -52,7 +52,7 @@ set PYTHON="%VENV_DIR%\Scripts\Python.exe"
 call "%VENV_DIR%\Scripts\activate.bat"
 
 :skip_venv
-if [%ACCELERATE%] == ["True"] goto :accelerate
+if %ACCELERATE% == "True" goto :accelerate
 goto :launch
 
 :accelerate

@@ -111,7 +111,7 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 自動インストール(とても大変):
 1. [Git](https://git-scm.com/download/win) をインストールします。(`winget install --id Git.Git -e --source winget`を実行するのがよい)
 2. stable-diffusion-webui リポジトリをダウンロードします。たとえば `git clone https://github.com/yutajp2026/stable-diffusion-webui-jp.git` を実行します。
-3. 変数(後述)を設定し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。
+3. `set (変数)=(値)`のかたちで変数(後述)を設定し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。
 
 ### Linux へのインストール
 1. 依存関係をインストールします:
@@ -148,10 +148,11 @@ git clone https://github.com/yutajp2026/stable-diffusion-webui-jp
 ```
 
 3. `webui.sh` を実行します。
-4. 変数(後述)については `webui-user.sh` を編集してください。
+4. 変数(後述)については `webui-user.sh` に、または直接、`export (変数)="(値)"`のかたちで設定してください。
 
 ### 変数
-コマンドライン引数(COMMANDLINE_ARGS)については、-hに設定すると簡単に確認できます(Windows:`set COMMANDLINE_ARGS=-h & webui.bat` Linux:`export COMMANDLINE=-h`を直接またはwebui-user.shに記入して`webui.sh`)。
+- コマンドライン引数(COMMANDLINE_ARGS)については、-hに設定すると簡単に確認できます。
+- 公式ではおそらく言及されていませんが、ACCELERATEを"True"に設定するとaccelerateで実行できます。詳細
 
 それ以外の変数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 ## コントリビューション
