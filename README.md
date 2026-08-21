@@ -111,7 +111,7 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 自動インストール(とても大変):
 1. [Git](https://git-scm.com/download/win) をインストールします。(`winget install --id Git.Git -e --source winget`を実行するとよい)
 2. stable-diffusion-webui リポジトリをダウンロードします。たとえば `git clone https://github.com/yutajp2026/stable-diffusion-webui-jp.git` を実行します。
-3. `set COMMANDLINE_ARGS=(コマンドライン引数)`を実行し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。コマンドライン引数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
+3. 変数(後述)を設定し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。
 
 ### Linux へのインストール
 1. 依存関係をインストールします:
@@ -148,7 +148,10 @@ git clone https://github.com/yutajp2026/stable-diffusion-webui-jp
 ```
 
 3. `webui.sh` を実行します。
-4. オプションについては `webui-user.sh` を確認してください。
+4. 変数(後述)については `webui-user.sh` を確認してください。
+
+### 変数
+[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 
 ## コントリビューション
 このリポジトリにコードを追加する方法は、[コントリビューションガイド](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Contributing)を参照してください。
