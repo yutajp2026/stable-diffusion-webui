@@ -87,6 +87,7 @@ parser.add_argument("--gradio-auth-path", type=normalized_filepath, help='launch
 parser.add_argument("--gradio-img2img-tool", type=str, help='launch.py 引数: 何もしません')
 parser.add_argument("--gradio-inpaint-tool", type=str, help="launch.py 引数: 何もしません")
 parser.add_argument("--gradio-allowed-path", action='append', help="launch.py 引数: gradio の allowed_paths にパスを追加し、そのパスのファイルを提供できるようにする", default=[data_path])
+parser.add_argument("--autolaunch", action='store_true', help="起動時にブラウザを自動的に開く")
 parser.add_argument("--opt-channelslast", action='store_true', help="launch.py 引数: Stable Diffusion のメモリ形式を channels last に変更する")
 parser.add_argument("--styles-file", type=str, action='append', help="launch.py 引数: スタイルファイルのパスまたはワイルドカードパス。複数指定可能", default=[])
 parser.add_argument("--use-textbox-seed", action='store_true', help="UI でシード入力にテキストボックスを使用する（上下ボタンはないが、長いシードを入力可能）", default=False)
