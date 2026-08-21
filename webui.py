@@ -62,7 +62,7 @@ def webui():
         startup_timer.record("scripts before_ui_callback")
 
         shared.demo = ui.create_ui()
-        startup_timer.record("create ui")
+        startup_timer.record("UI作成")
 
         if not cmd_opts.no_gradio_queue:
             shared.demo.queue(64)
@@ -95,7 +95,7 @@ def webui():
             root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else "",
         )
 
-        startup_timer.record("gradio launch")
+        startup_timer.record("gradio起動")
 
         # gradio uses a very open CORS policy via app.user_middleware, which makes it possible for
         # an attacker to trick the user into opening a malicious HTML page, which makes a request to the
