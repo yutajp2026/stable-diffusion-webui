@@ -100,7 +100,7 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 ### Windows 10/11 へのインストール
 ℹ️周知しておきたい内容
 - 公式ではいろいろなGPU別にインストール方法が載っていますが、リポジトリが存在しない問題(後述)に悩まされるのでここでは記載しません。
-- アプリ版ではNvidia GPU搭載かを自動で判断してくれるようにしました。自動インストールの場合はCOMMANDLINE_ARGSを設定します(後述)。
+- アプリ版ではNvidia GPU搭載か(`nvidia-smi`を実行できるか)を自動で判断してくれるようにしました。非搭載のPCで自動インストールする場合、`set COMMANDLINE_ARGS=--use-cpu all --precision full --no-half --skip-torch-cuda-test`でコマンドライン引数(後述)を設定します。
 - Pythonはwebui.batにて自動でインストールされるようにしました。
 - Pythonのバージョンが競合する場合は環境変数Pathから使わないPythonのパスを削除するとよいです。
 
@@ -109,7 +109,7 @@ Gradio ライブラリで実装された Stable Diffusion 用の Web インタ�
 公開予定
 
 自動インストール(とても大変):
-1. [Git](https://git-scm.com/download/win) をインストールします。(`winget install --id Git.Git -e --source winget`を実行するとよい)
+1. [Git](https://git-scm.com/download/win) をインストールします。(`winget install --id Git.Git -e --source winget`を実行するのがよい)
 2. stable-diffusion-webui リポジトリをダウンロードします。たとえば `git clone https://github.com/yutajp2026/stable-diffusion-webui-jp.git` を実行します。
 3. 変数(後述)を設定し、Windows Explorer から、管理者権限ではない通常のユーザーとして `webui.bat` を実行します。
 
@@ -148,11 +148,12 @@ git clone https://github.com/yutajp2026/stable-diffusion-webui-jp
 ```
 
 3. `webui.sh` を実行します。
-4. 変数(後述)については `webui-user.sh` を確認してください。
+4. 変数(後述)については `webui-user.sh` を編集してください。
 
 ### 変数
-[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
+コマンドライン引数(COMMANDLINE_ARGS)については、-hに設定すると簡単に確認できます(Windows:`set COMMANDLINE_ARGS=-h` Linux:`export COMMANDLINE=-h`)。
 
+それ以外の変数は[wiki参照](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)
 ## コントリビューション
 このリポジトリにコードを追加する方法は、[コントリビューションガイド](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Contributing)を参照してください。
 
